@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qianfeng.maitaole.mapper.MobilePhoneMapper">
+    <resultMap id="mobileTypeMap" type="com.qianfeng.maitaole.bean.MobilePhone">
+        <id property="id" column="id"></id>
+        <result property="typeName" column="type_name"></result>
+        <result property="img" column="img"></result>
+        <result property="mobileName" column="mobile_name"></result>
+        <result property="startTime" column="start_time"></result>
+        <result property="mobile_type_id" column="mobileTypeId"></result>
+        <result property="price" column="price"></result>
+    </resultMap>
+    <sql id="phoneColumn">
+      id, img, mobile_name, start_time, price
+    </sql>
+
+    <select id="findById"  resultMap="mobileTypeMap">
+        select
+        <include refid="phoneColumn" />
+        from mobile_phone
+        where id = #{id}
+    </select>
+
+    <select id="queryAllMobilePhone" resultMap="mobileTypeMap">
+        select <include refid="phoneColumn"></include> from mobile_phone
+        <!--<where>-->
+            <!--<if test="phoneName !=null">-->
+                <!--mobile_name like '%${phoneName}%'-->
+            <!--</if>-->
+        <!--</where>-->
+        <!--limit #{page},#{pageSize}-->
+    </select>
+
+    <select id="queryMobilePhoneCount" resultType="java.lang.Integer">
+        select count(1) from mobile_phone
+        <where>
+            <if test="phoneName !=null">
+                mobile_name like '%${phoneName}%'
+            </if>
+        </where>
+    </select>
+</mapper>
